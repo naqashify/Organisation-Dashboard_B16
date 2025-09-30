@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B15-B16 Organizations Comparative Analysis Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-color-scheme="dark">
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="container">
+                <h1>B15-B16 Organizations Comparative Analysis Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn--secondary" id="resetFilters">Reset Filters</button>
+                    <button class="btn btn--primary" id="exportData">Export Data</button>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle mobile menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="dashboard-nav" id="dashboardNav">
+            <div class="container">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-section="overview">Overview</button>
+                    <button class="nav-tab" data-section="organizations">Organizations</button>
+                    <button class="nav-tab" data-section="domains">Domains</button>
+                    <button class="nav-tab" data-section="geography">Geography</button>
+                    <button class="nav-tab" data-section="opportunities">Unique Job Descriptions</button>
+                    <button class="nav-tab" data-section="recruitment">Recruitment</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-content">
+            <div class="container">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2>Batch Comparison Overview</h2>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value neon-cyan">43</div>
+                            <div class="metric-label">Total B15 Organizations</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value neon-purple">44</div>
+                            <div class="metric-label">Total B16 Organizations</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value neon-green">9</div>
+                            <div class="metric-label">Organizations in Both Batches</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value neon-cyan">34</div>
+                            <div class="metric-label">B15 Only</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value neon-purple">35</div>
+                            <div class="metric-label">B16 Only</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value neon-green">80</div>
+                            <div class="metric-label">Total Unique Organizations</div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>Batch Distribution</h3>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="batchPieChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Organization Overlap</h3>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="overlapChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Organizations Section -->
+                <section id="organizations" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Organizational Directory</h2>
+                        <div class="section-filters">
+                            <input type="text" id="orgSearch" class="form-control" placeholder="Search organizations...">
+                            <select id="batchFilter" class="form-control">
+                                <option value="all">All Organizations</option>
+                                <option value="b15">B15 Only</option>
+                                <option value="b16">B16 Only</option>
+                                <option value="both">Both Batches</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="org-list-container">
+                        <div class="org-list" id="orgList"></div>
+                    </div>
+                </section>
+
+                <!-- Domains Section -->
+                <section id="domains" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Domain Analysis</h2>
+                        <div class="section-filters">
+                            <select id="domainFilter" class="form-control">
+                                <option value="all">All Domains</option>
+                                <option value="Education">Education</option>
+                                <option value="Consulting, Leadership & Others">Consulting, Leadership & Others</option>
+                                <option value="Livelihood">Livelihood</option>
+                                <option value="Environment">Environment</option>
+                                <option value="Gender/Women Empowerment">Gender/Women Empowerment</option>
+                                <option value="Rural & Tribal Development">Rural & Tribal Development</option>
+                                <option value="Health">Health</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>Organizations by Domain</h3>
+                            <div class="domain-stats">
+                                <div class="domain-stat">
+                                    <span class="domain-name">Education</span>
+                                    <span class="domain-count neon-cyan">22</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Consulting, Leadership & Others</span>
+                                    <span class="domain-count neon-purple">7</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Livelihood</span>
+                                    <span class="domain-count neon-green">6</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Environment</span>
+                                    <span class="domain-count neon-cyan">5</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Gender/Women Empowerment</span>
+                                    <span class="domain-count neon-purple">3</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Rural & Tribal Development</span>
+                                    <span class="domain-count neon-green">3</span>
+                                </div>
+                                <div class="domain-stat">
+                                    <span class="domain-name">Health</span>
+                                    <span class="domain-count neon-cyan">2</span>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="domainBarChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Domain Focus Distribution</h3>
+                            <div class="focus-stats">
+                                <div class="focus-stat">
+                                    <span class="focus-label">Single Domain Organizations</span>
+                                    <span class="focus-count neon-purple">23</span>
+                                    <span class="focus-percent">(52.3%)</span>
+                                </div>
+                                <div class="focus-stat">
+                                    <span class="focus-label">Multi Domain Organizations</span>
+                                    <span class="focus-count neon-green">21</span>
+                                    <span class="focus-percent">(47.7%)</span>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="domainDonutChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Geography Section -->
+                <section id="geography" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Geographic Distribution</h2>
+                        <h3>State-wise JD Coverage Analysis</h3>
+                        <div class="section-filters">
+                            <select id="stateFilter" class="form-control">
+                                <option value="all">All States</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-wrapper" style="position: relative; height: 500px;">
+                            <canvas id="stateChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Unique Job Description Section -->
+                <section id="opportunities" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Unique Job Description Analysis</h2>
+                        <p class="section-description">Total Unique Job Descriptions: <span class="neon-cyan">103</span></p>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <h3>Unique Job Description Types</h3>
+                            <div class="opportunity-stats">
+                                <div class="opportunity-stat">
+                                    <span class="opportunity-name">Operations Type</span>
+                                    <span class="opportunity-count neon-cyan">56</span>
+                                </div>
+                                <div class="opportunity-stat">
+                                    <span class="opportunity-name">Alternate Roles Type</span>
+                                    <span class="opportunity-count neon-purple">19</span>
+                                </div>
+                                <div class="opportunity-stat">
+                                    <span class="opportunity-name">Center of Excellence (CoE) Type</span>
+                                    <span class="opportunity-count neon-green">17</span>
+                                </div>
+                                <div class="opportunity-stat">
+                                    <span class="opportunity-name">Field Operations Type</span>
+                                    <span class="opportunity-count neon-cyan">7</span>
+                                </div>
+                                <div class="opportunity-stat">
+                                    <span class="opportunity-name">Special Interest Group (SIG) Type</span>
+                                    <span class="opportunity-count neon-purple">4</span>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="opportunityTypesChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <h3>Job Level Distribution</h3>
+                            <div class="level-stats">
+                                <div class="level-stat">
+                                    <span class="level-label">Entry Level</span>
+                                    <span class="level-count neon-green">93</span>
+                                </div>
+                                <div class="level-stat">
+                                    <span class="level-label">Mid Level</span>
+                                    <span class="level-count neon-purple">10</span>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper" style="position: relative; height: 300px;">
+                                <canvas id="jobLevelsChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Salary Range Distribution</h3>
+                        <div class="salary-stats">
+                            <div class="salary-stat">
+                                <span class="salary-label">Between 4-6 LPA</span>
+                                <span class="salary-count neon-cyan">67</span>
+                            </div>
+                            <div class="salary-stat">
+                                <span class="salary-label">Up to 4 LPA</span>
+                                <span class="salary-count neon-purple">21</span>
+                            </div>
+                            <div class="salary-stat">
+                                <span class="salary-label">6 LPA and above</span>
+                                <span class="salary-count neon-green">15</span>
+                            </div>
+                        </div>
+                        <div class="chart-wrapper" style="position: relative; height: 300px;">
+                            <canvas id="salaryChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recruitment Section -->
+                <section id="recruitment" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Recruitment Performance</h2>
+                        <p class="section-description">Organizations that recruited from both B15 and B16 batches</p>
+                    </div>
+
+                    <div class="chart-container">
+                        <h3>Recruitment Trends: B15 vs B16</h3>
+                        <div class="chart-wrapper" style="position: relative; height: 400px;">
+                            <canvas id="recruitmentChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="recruitment-stats">
+                        <div class="stat-card">
+                            <h4>Piramal Foundation</h4>
+                            <div class="stat-comparison">
+                                <span class="b15">B15: <span class="neon-cyan">84</span></span>
+                                <span class="b16">B16: <span class="neon-purple">13</span></span>
+                                <span class="total">Total: <span class="neon-green">97</span></span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Open Links Foundation</h4>
+                            <div class="stat-comparison">
+                                <span class="b15">B15: <span class="neon-cyan">5</span></span>
+                                <span class="b16">B16: <span class="neon-purple">16</span></span>
+                                <span class="total">Total: <span class="neon-green">21</span></span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <h4>Piramal Pharma Limited</h4>
+                            <div class="stat-comparison">
+                                <span class="b15">B15: <span class="neon-cyan">3</span></span>
+                                <span class="b16">B16: <span class="neon-purple">4</span></span>
+                                <span class="total">Total: <span class="neon-green">7</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
